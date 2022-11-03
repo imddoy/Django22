@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+#표지판 역할->장고로 개발한 웹 사이트 방문했을 때 어떤 페이지로 들어가야 하는지 알려줌
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
