@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #앱 추가해주세요~
+    'crispy_forms', #외부는 앱 위에 작성해줘요
     'blog',
-    'single_pages'
+    'single_pages',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,8 @@ STATIC_URL = 'static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
