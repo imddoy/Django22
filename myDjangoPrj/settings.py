@@ -39,9 +39,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #앱 추가해주세요~
     'crispy_forms', #외부는 앱 위에 작성해줘요
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     'blog',
     'single_pages',
 ]
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
+SITE_ID = 1
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+LOGIN_REDIRECT_URL = '/blog/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
