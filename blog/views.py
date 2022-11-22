@@ -4,6 +4,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
+from .forms import CommentForm
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 class PostUpdate(LoginRequiredMixin, UpdateView):
@@ -100,6 +102,7 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data() #오버라이딩 후 추가요소 context 딕셔너리에 담아 템플릿에 보낼 수 있음
         context['categories']=Category.objects.all()
         context['no_category_post_count'] = Post.objects.filter(category=None).count
+        context['comment_form'] = CommentForm
         return context
     #템플릿은 모델명_detail.html : post_detail.html
     #매개변수 모델명 : post
@@ -111,6 +114,21 @@ class PostDetail(DetailView):
 # def single_post_page(request, pk):
 #     post1 = Post.objects.get(pk=pk)
 #     return render(request, 'blog/single_post_page.html', {'post': post1})
+def new_comment(request, pk):
+    if request.user.is_authenticated:
+        post = get_object_or_404(Post, pk=pk)
+        if request.method == 'POST':
+            comment_form = CommentForm(request.POST)
+            if comment_form.is_valid():
+                comment = comment_form.save(commit=False)
+                comment.post = post
+                comment.author = request.user
+                comment.save()
+                return redirect(comment.get_absolute_url())
+        else: #GET
+            return redirect(post.get_absolute_url())
+    else: #로그인 안한 사용자
+        raise PermissionDenied
 
 def category_page(request,slug):
     if slug == 'no_category':
