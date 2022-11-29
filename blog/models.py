@@ -67,3 +67,8 @@ class Comment(models.Model):
         return f'{self.author} : {self.content}'
     def get_absolute_url(self): #개별 레코드 고유 url정의
         return f'{self.post.get_absolute_url()}#comment-{{self.pk}}'
+    def get_avatar_url(self):
+        if self.author.socialaccount_set.exists():
+            return self.author.socialaccount_set.first().get_avatar_url()
+        else:
+            return 'https://dummyimage.com/50x50/ced4da/6c757d.jpg'

@@ -83,12 +83,12 @@
                 {% if post.comment_set.exists %}
                 {% for c in post.comment_set.iterator %}
                 <!-- Single comment-->
-                <div class="media d-flex" id="comment-{{comment.pk}}">
-                    <img class="rounded-circle mr-3" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
+                <div class="media d-flex" id="comment-{{c.pk}}">
+                    <img class="rounded-circle mr-3" src="{{c.get_avatar_url}}" alt="{{c.author}}" width="60"/>
                     <div class="media-body ms-3">
                         {% if user.is_authenticated and c.author == user %}
                             <a role="button" class="btn btn-sm btn-info float-right"
-                               href="/blog/update_comment/{{comment.pk}}/">
+                               href="/blog/update_comment/{{c.pk}}/">
                                 Edit
                             </a>
                         {% endif %}
@@ -96,9 +96,9 @@
                         <small class="text_muted">{{c.created_at}}</small>
                         </div>
                         <p>{{c.content | linebreaks}}</p>
-                        {% if c.create_at != c.modified_at %}
+                        {% if c.created_at != c.modified_at %}
                             <p class="text-muted float-right">
-                                <small>Update : {{c.update_at}}</small>
+                                <small>Update : {{c.modified_at}}</small>
                             </p>
                         {% endif %}
                     </div>
